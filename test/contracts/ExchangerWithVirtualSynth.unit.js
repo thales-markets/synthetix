@@ -1,10 +1,15 @@
 'use strict';
 
-const { artifacts, contract } = require('hardhat');
+const { artifacts, contract, web3 } = require('hardhat');
 
 const { assert } = require('./common');
 
-const { onlyGivenAddressCanInvoke, ensureOnlyExpectedMutativeFunctions } = require('./helpers');
+const {
+	onlyGivenAddressCanInvoke,
+	ensureOnlyExpectedMutativeFunctions,
+	getEventByName,
+	buildMinimalProxyCode,
+} = require('./helpers');
 
 const { toBytes32 } = require('../..');
 
@@ -44,6 +49,7 @@ contract('ExchangerWithVirtualSynth (unit tests)', async accounts => {
 					const args = [owner, toBytes32('sUSD'), '100', toBytes32('sETH'), owner, toBytes32()];
 
 					behaviors.whenInstantiated({ owner }, () => {
+						// TODO: not sure I get this test--why does it need the behaviour mocked to allow checks?
 						// as we aren't calling as Synthetix, we need to mock the check for synths
 						behaviors.whenMockedToAllowChecks(() => {
 							it('it reverts when called by regular accounts', async () => {
@@ -73,7 +79,7 @@ contract('ExchangerWithVirtualSynth (unit tests)', async accounts => {
 										() => {
 											behaviors.whenMockedEffectiveRateAsEqual(() => {
 												behaviors.whenMockedLastNRates(() => {
-													behaviors.whenMockedASynthToIssueAmdBurn(() => {
+													behaviors.whenMockedASynthToIssueAndBurn(() => {
 														behaviors.whenMockedExchangeStatePersistance(() => {
 															it('it reverts trying to create a virtual synth with no supply', async () => {
 																await assert.revert(
@@ -123,7 +129,7 @@ contract('ExchangerWithVirtualSynth (unit tests)', async accounts => {
 								() => {
 									behaviors.whenMockedEffectiveRateAsEqual(() => {
 										behaviors.whenMockedLastNRates(() => {
-											behaviors.whenMockedASynthToIssueAmdBurn(() => {
+											behaviors.whenMockedASynthToIssueAndBurn(() => {
 												behaviors.whenMockedExchangeStatePersistance(() => {
 													describe('when invoked', () => {
 														let txn;
@@ -147,13 +153,14 @@ contract('ExchangerWithVirtualSynth (unit tests)', async accounts => {
 																recipient: owner,
 															});
 														});
-														describe('when interrogating the Virtual Synths construction params', () => {
+														describe('when interrogating the Virtual Synths', () => {
 															let vSynth;
 															beforeEach(async () => {
-																const { vSynth: vSynthAddress } = txn.logs.find(
-																	({ event }) => event === 'VirtualSynthCreated'
-																).args;
-																vSynth = await artifacts.require('VirtualSynth').at(vSynthAddress);
+																const VirtualSynth = artifacts.require('VirtualSynth');
+																vSynth = await VirtualSynth.at(
+																	getEventByName({ tx: txn, name: 'VirtualSynthCreated' }).args
+																		.vSynth
+																);
 															});
 															it('the vSynth has the correct synth', async () => {
 																assert.equal(
@@ -174,6 +181,13 @@ contract('ExchangerWithVirtualSynth (unit tests)', async accounts => {
 																	vSynth.address
 																);
 																assert.equal(this.mocks.synth.smocked.issue.calls[0][1], amount);
+															});
+															it('the vSynth is an ERC-1167 minimal proxy instead of a full Virtual Synth', async () => {
+																const vSynthCode = await web3.eth.getCode(vSynth.address);
+																assert.equal(
+																	vSynthCode,
+																	buildMinimalProxyCode(this.baseVirtualSynth.address)
+																);
 															});
 														});
 													});

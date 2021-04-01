@@ -772,11 +772,23 @@ const deploy = async ({
 		args: [account, addressOf(readProxyForResolver)],
 	});
 
+	let virtualSynthBase;
+	if (!useOvm) {
+		virtualSynthBase = await deployer.deployContract({
+			name: 'VirtualSynthBase',
+			source: 'VirtualSynth',
+			args: [],
+		});
+	}
+
 	const exchanger = await deployer.deployContract({
 		name: 'Exchanger',
 		source: useOvm ? 'Exchanger' : 'ExchangerWithVirtualSynth',
 		deps: ['AddressResolver'],
-		args: [account, addressOf(readProxyForResolver)],
+		// TODO: finalize virtual synth base address
+		args: [account, addressOf(readProxyForResolver)].concat(
+			useOvm ? [] : [addressOf(virtualSynthBase)]
+		),
 	});
 
 	const exchangeState = await deployer.deployContract({
@@ -1979,13 +1991,15 @@ const deploy = async ({
 		}
 
 		// setup initial values if they are unset
+
+		const waitingPeriodSecs = await getDeployParameter('WAITING_PERIOD_SECS');
 		await runStep({
 			contract: 'SystemSettings',
 			target: systemSettings,
 			read: 'waitingPeriodSecs',
-			expected: input => input !== '0',
+			expected: input => (waitingPeriodSecs === '0' ? true : input !== '0'),
 			write: 'setWaitingPeriodSecs',
-			writeArg: await getDeployParameter('WAITING_PERIOD_SECS'),
+			writeArg: waitingPeriodSecs,
 		});
 
 		await runStep({

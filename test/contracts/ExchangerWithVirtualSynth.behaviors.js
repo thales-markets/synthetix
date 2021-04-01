@@ -28,6 +28,9 @@ module.exports = function({ accounts }) {
 			],
 			accounts: accounts.slice(10), // mock using accounts after the first few
 		}));
+
+		const VirtualSynth = artifacts.require('VirtualSynth');
+		this.baseVirtualSynth = await VirtualSynth.new();
 	});
 
 	before(async () => {
@@ -38,7 +41,11 @@ module.exports = function({ accounts }) {
 		whenInstantiated: ({ owner }, cb) => {
 			describe(`when instantiated`, () => {
 				beforeEach(async () => {
-					this.instance = await ExchangerWithVirtualSynth.new(owner, this.resolver.address);
+					this.instance = await ExchangerWithVirtualSynth.new(
+						owner,
+						this.resolver.address,
+						this.baseVirtualSynth.address
+					);
 					await this.instance.rebuildCache();
 				});
 				cb();
@@ -99,7 +106,7 @@ module.exports = function({ accounts }) {
 				cb();
 			});
 		},
-		whenMockedASynthToIssueAmdBurn: cb => {
+		whenMockedASynthToIssueAndBurn: cb => {
 			describe(`when mocked a synth to burn`, () => {
 				beforeEach(async () => {
 					// create and share the one synth for all Issuer.synths() calls
