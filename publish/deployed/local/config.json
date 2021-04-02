@@ -59,10 +59,10 @@
 	"ExchangeRates": {
 		"deploy": true
 	},
-	"VirtualSynthBase": {
+	"Exchanger": {
 		"deploy": true
 	},
-	"Exchanger": {
+	"VirtualSynthMastercopy": {
 		"deploy": true
 	},
 	"ExchangeState": {
