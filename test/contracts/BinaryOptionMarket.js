@@ -109,7 +109,7 @@ contract('BinaryOptionMarket @gas-skip', accounts => {
 			args: [
 				accounts[0],
 				creator,
-				resolver,
+				addressResolver,
 				[capitalRequirement, skewLimit],
 				oracleKey,
 				strikePrice,

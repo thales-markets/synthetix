@@ -14,14 +14,16 @@ import "./BinaryOption.sol";
 import "./interfaces/IExchangeRates.sol";
 import "./interfaces/IERC20.sol";
 import "./interfaces/IFeePool.sol";
-
+import "./interfaces/IAddressResolver.sol";
 
 // https://docs.synthetix.io/contracts/source/contracts/binaryoptionmarket
-contract BinaryOptionMarket is Owned, MixinResolver, IBinaryOptionMarket {
+contract BinaryOptionMarket is Owned, IBinaryOptionMarket {
     /* ========== LIBRARIES ========== */
 
     using SafeMath for uint;
     using SafeDecimalMath for uint;
+
+    IAddressResolver public resolver;
 
     /* ========== TYPES ========== */
 
@@ -74,10 +76,11 @@ contract BinaryOptionMarket is Owned, MixinResolver, IBinaryOptionMarket {
 
     /* ========== CONSTRUCTOR ========== */
 
-    constructor(
-        address _owner,
+    bool public initialized = false;
+
+    function initialize(
+        IAddressResolver _resolver,
         address _creator,
-        address _resolver,
         uint[2] memory _creatorLimits, // [capitalRequirement, skewLimit]
         bytes32 _oracleKey,
         uint _strikePrice,
@@ -85,7 +88,10 @@ contract BinaryOptionMarket is Owned, MixinResolver, IBinaryOptionMarket {
         uint[3] memory _times, // [biddingEnd, maturity, expiry]
         uint[2] memory _bids, // [longBid, shortBid]
         uint[3] memory _fees // [poolFee, creatorFee, refundFee]
-    ) public Owned(_owner) MixinResolver(_resolver) {
+    ) public {
+        //        require(!initialized, "vSynth already initialized");
+        //        initialized = true;
+        resolver = _resolver;
         creator = _creator;
         creatorLimits = BinaryOptionMarketManager.CreatorLimits(_creatorLimits[0], _creatorLimits[1]);
 
@@ -115,6 +121,9 @@ contract BinaryOptionMarket is Owned, MixinResolver, IBinaryOptionMarket {
         // Instantiate the options themselves
         options.long = new BinaryOption(_creator, longBid);
         options.short = new BinaryOption(_creator, shortBid);
+
+        // Note: the ERC20 base contract does not have a constructor, so we do not have to worry
+        // about initializing its state separately
     }
 
     /* ========== VIEWS ========== */
@@ -130,19 +139,19 @@ contract BinaryOptionMarket is Owned, MixinResolver, IBinaryOptionMarket {
     /* ---------- External Contracts ---------- */
 
     function _systemStatus() internal view returns (ISystemStatus) {
-        return ISystemStatus(requireAndGetAddress(CONTRACT_SYSTEMSTATUS));
+        return ISystemStatus(resolver.requireAndGetAddress(CONTRACT_SYSTEMSTATUS, "SystemStatus contract not found"));
     }
 
     function _exchangeRates() internal view returns (IExchangeRates) {
-        return IExchangeRates(requireAndGetAddress(CONTRACT_EXRATES));
+        return IExchangeRates(resolver.requireAndGetAddress(CONTRACT_EXRATES, "ExchangeRates contract not found"));
     }
 
     function _sUSD() internal view returns (IERC20) {
-        return IERC20(requireAndGetAddress(CONTRACT_SYNTHSUSD));
+        return IERC20(resolver.requireAndGetAddress(CONTRACT_SYNTHSUSD, "SynthsUSD contract not found"));
     }
 
     function _feePool() internal view returns (IFeePool) {
-        return IFeePool(requireAndGetAddress(CONTRACT_FEEPOOL));
+        return IFeePool(resolver.requireAndGetAddress(CONTRACT_FEEPOOL, "FeePool contract not found"));
     }
 
     function _manager() internal view returns (BinaryOptionMarketManager) {

@@ -58,10 +58,9 @@ module.exports = {
 		},
 	},
 	gasReporter: {
-		enabled: false,
+		enabled: true,
 		showTimeSpent: true,
 		currency: 'USD',
 		maxMethodDiff: 25, // CI will fail if gas usage is > than this %
-		outputFile: 'test-gas-used.log',
 	},
 };

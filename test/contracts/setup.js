@@ -763,6 +763,7 @@ const setupAllContracts = async ({
 		{
 			contract: 'BinaryOptionMarketFactory',
 			deps: ['AddressResolver'],
+			mocks: ['BinaryOptionMarketMastercopy'],
 		},
 		{
 			contract: 'BinaryOptionMarketManager',
@@ -774,6 +775,7 @@ const setupAllContracts = async ({
 				'Synthetix',
 				'BinaryOptionMarketFactory',
 			],
+			mocks: ['BinaryOptionMarketMastercopy'],
 		},
 		{
 			contract: 'BinaryOptionMarketData',

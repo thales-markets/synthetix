@@ -1,0 +1,347 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "name",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "destination",
+						"type": "address"
+					}
+				],
+				"name": "AddressImported",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "oldOwner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnerChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnerNominated",
+				"type": "event"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "acceptOwnership",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "names",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "address[]",
+						"name": "destinations",
+						"type": "address[]"
+					}
+				],
+				"name": "areAddressesImported",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "name",
+						"type": "bytes32"
+					}
+				],
+				"name": "getAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "key",
+						"type": "bytes32"
+					}
+				],
+				"name": "getSynth",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "names",
+						"type": "bytes32[]"
+					},
+					{
+						"internalType": "address[]",
+						"name": "destinations",
+						"type": "address[]"
+					}
+				],
+				"name": "importAddresses",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"name": "nominateNewOwner",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "nominatedOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "contract MixinResolver[]",
+						"name": "destinations",
+						"type": "address[]"
+					}
+				],
+				"name": "rebuildCaches",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "repository",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "name",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "reason",
+						"type": "string"
+					}
+				],
+				"name": "requireAndGetAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/AddressResolver.sol": "AddressResolver"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/AddressResolver.sol": {
+			"keccak256": "0x2c068aabcdfa47cf198ca9d4bb17af6aba781ec434143ae44df589644ecf2399",
+			"urls": [
+				"bzz-raw://6e14ffdcb432e4eec19a92d63b22a9610d23c00a2bffe15b8473f441d03c70ce",
+				"dweb:/ipfs/Qmb9yj8yTX95kRWGh8tu5QTxewQEHAnh6iPV3zvi1gFion"
+			]
+		},
+		"contracts/MixinResolver.sol": {
+			"keccak256": "0xcdbf0585834f3eb9bfd355f696244dc14decbcb62f8b300c63d18e8a8717cb99",
+			"urls": [
+				"bzz-raw://4742352186b1070f3181e0b2fca833f5469f844b00bf0ad221f4a4c2b24ea828",
+				"dweb:/ipfs/QmUAhwzbnNoCzFFYCMgg3R9tjLant8dHgF6LR72q8PYonQ"
+			]
+		},
+		"contracts/Owned.sol": {
+			"keccak256": "0xce9fb9643bb96ae98377930111438ac7bfb44f8ce0641c3c8d86f56019229535",
+			"urls": [
+				"bzz-raw://38bd4ad951462320e5e01dd3882f54f30a8e7b14f6a028e53fb7dea280db447f",
+				"dweb:/ipfs/QmfGjRNRZB9qhfH24pKGPTf8U3VXfeC55FJbQEhWt3Y7RD"
+			]
+		},
+		"contracts/ReadProxy.sol": {
+			"keccak256": "0xfb4b9a814b125984af93cb4798efe9753bb50f59b3db8a1db098ea828255ad8f",
+			"urls": [
+				"bzz-raw://b0d0ccae118ce22c70696468461d9ef98e2a21b9e6cf310fa1cc8c55449c35da",
+				"dweb:/ipfs/QmWXaDtfY1av6m9VL1fQtQEPdhupe9tn4cXAaYQk5NnqRw"
+			]
+		},
+		"contracts/interfaces/IAddressResolver.sol": {
+			"keccak256": "0xa1e4d6c2007494ffd54789f0bd3c267191579a578b5ca8099ee79aecb4def1b4",
+			"urls": [
+				"bzz-raw://d37758d3a02c001fcb9d888d6ccfb63acbadc2628b8a2eaffe9c7b4bf68a1087",
+				"dweb:/ipfs/QmcAkavFCgroCaXGVMGzPg6Em5a8V7Lovz9F3GFyk2KG6i"
+			]
+		},
+		"contracts/interfaces/IIssuer.sol": {
+			"keccak256": "0x35fc48d45fe3afeac2287390858d8a8e5c3c727aa916f12099a086da3f8b8680",
+			"urls": [
+				"bzz-raw://668036860895d870244ff159c42d6c6382507b3cbf6124dc7799b420e86be8ec",
+				"dweb:/ipfs/QmapjibvjKpKTPqDCG3A53GP39AR6AEa2ar4BHFzrfgT4Y"
+			]
+		},
+		"contracts/interfaces/ISynth.sol": {
+			"keccak256": "0xb399c9365919ce1c9cb231fd4fc69fbc6388b235528a26c2d25830beefa6bdeb",
+			"urls": [
+				"bzz-raw://ddfab507b7cf926ec592431c84c3380446bf611fbcc29d13221a65c19af63722",
+				"dweb:/ipfs/QmPVMXWhvbuDjRo89GxEbonZ3mqS32DXm54EMDQRuQLw1c"
+			]
+		}
+	},
+	"version": 1
+}

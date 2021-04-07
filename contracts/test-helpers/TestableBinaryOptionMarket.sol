@@ -1,13 +1,13 @@
 pragma solidity ^0.5.16;
 
 import "../BinaryOptionMarket.sol";
+import "../BinaryOptionMarketMastercopy.sol";
 
-
-contract TestableBinaryOptionMarket is BinaryOptionMarket {
+contract TestableBinaryOptionMarket is BinaryOptionMarketMastercopy {
     constructor(
         address _owner,
         address _creator,
-        address _resolver,
+        IAddressResolver _resolver,
         uint[2] memory _creatorLimits,
         bytes32 _oracleKey,
         uint256 _strikePrice,
@@ -15,21 +15,9 @@ contract TestableBinaryOptionMarket is BinaryOptionMarket {
         uint[3] memory _times,
         uint[2] memory _bids,
         uint[3] memory _fees
-    )
-        public
-        BinaryOptionMarket(
-            _owner,
-            _creator,
-            _resolver,
-            _creatorLimits,
-            _oracleKey,
-            _strikePrice,
-            _refundsEnabled,
-            _times,
-            _bids,
-            _fees
-        )
-    {}
+    ) public {
+        initialize(_resolver, _creator, _creatorLimits, _oracleKey, _strikePrice, _refundsEnabled, _times, _bids, _fees);
+    }
 
     function updatePrices(
         uint256 longBids,

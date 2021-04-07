@@ -1,0 +1,1197 @@
+{
+	"compiler": {
+		"version": "0.5.17+commit.d19bba13"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_creator",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_resolver",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256[2]",
+						"name": "_creatorLimits",
+						"type": "uint256[2]"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "_oracleKey",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_strikePrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "_refundsEnabled",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256[3]",
+						"name": "_times",
+						"type": "uint256[3]"
+					},
+					{
+						"internalType": "uint256[2]",
+						"name": "_bids",
+						"type": "uint256[2]"
+					},
+					{
+						"internalType": "uint256[3]",
+						"name": "_fees",
+						"type": "uint256[3]"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "side",
+						"type": "uint8"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "Bid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bytes32",
+						"name": "name",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "destination",
+						"type": "address"
+					}
+				],
+				"name": "CacheUpdated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "result",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "oraclePrice",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "oracleTimestamp",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "deposited",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "poolFees",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "creatorFees",
+						"type": "uint256"
+					}
+				],
+				"name": "MarketResolved",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "longOptions",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "shortOptions",
+						"type": "uint256"
+					}
+				],
+				"name": "OptionsClaimed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "OptionsExercised",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "oldOwner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnerChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnerNominated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "longPrice",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "shortPrice",
+						"type": "uint256"
+					}
+				],
+				"name": "PricesUpdated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "side",
+						"type": "uint8"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "fee",
+						"type": "uint256"
+					}
+				],
+				"name": "Refund",
+				"type": "event"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "acceptOwnership",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "balancesOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "long",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "short",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "side",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "bid",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "bidSide",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "priceSide",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "refund",
+						"type": "bool"
+					}
+				],
+				"name": "bidOrRefundForPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "bidsOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "long",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "short",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "canResolve",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "beneficiary",
+						"type": "address"
+					}
+				],
+				"name": "cancel",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "claimOptions",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "longClaimed",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "shortClaimed",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "claimableBalancesOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "long",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "short",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "creator",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "creatorLimits",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "capitalRequirement",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "skewLimit",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "deposited",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "exercisableDeposits",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "exerciseOptions",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "beneficiary",
+						"type": "address"
+					}
+				],
+				"name": "expire",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "fees",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "poolFee",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "creatorFee",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "refundFee",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "isResolverCached",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"name": "nominateNewOwner",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "nominatedOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "options",
+				"outputs": [
+					{
+						"internalType": "contract BinaryOption",
+						"name": "long",
+						"type": "address"
+					},
+					{
+						"internalType": "contract BinaryOption",
+						"name": "short",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "oracleDetails",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "key",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint256",
+						"name": "strikePrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "finalPrice",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "oraclePriceAndTimestamp",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "updatedAt",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "phase",
+				"outputs": [
+					{
+						"internalType": "enum IBinaryOptionMarket.Phase",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "prices",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "long",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "short",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "side",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "refund",
+						"type": "bool"
+					}
+				],
+				"name": "pricesAfterBidOrRefund",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "long",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "short",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "rebuildCache",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "side",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					}
+				],
+				"name": "refund",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "refundMinusFee",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "refundsEnabled",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "requireActiveAndUnpaused",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "resolve",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "resolved",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "resolver",
+				"outputs": [
+					{
+						"internalType": "contract AddressResolver",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "resolverAddressesRequired",
+				"outputs": [
+					{
+						"internalType": "bytes32[]",
+						"name": "addresses",
+						"type": "bytes32[]"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "result",
+				"outputs": [
+					{
+						"internalType": "enum IBinaryOptionMarket.Side",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "senderPriceAndExercisableDeposits",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "exercisable",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "times",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "biddingEnd",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "maturity",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "expiry",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "totalBids",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "long",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "short",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "totalClaimableSupplies",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "long",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "short",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "totalSupplies",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "long",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "short",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/BinaryOptionMarket.sol": "BinaryOptionMarket"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/AddressResolver.sol": {
+			"keccak256": "0x2c068aabcdfa47cf198ca9d4bb17af6aba781ec434143ae44df589644ecf2399",
+			"urls": [
+				"bzz-raw://6e14ffdcb432e4eec19a92d63b22a9610d23c00a2bffe15b8473f441d03c70ce",
+				"dweb:/ipfs/Qmb9yj8yTX95kRWGh8tu5QTxewQEHAnh6iPV3zvi1gFion"
+			]
+		},
+		"contracts/AddressSetLib.sol": {
+			"keccak256": "0x50348898db6dc231c8bd38802394e3b1d433a185b18c874b2e91fc382ae678a2",
+			"urls": [
+				"bzz-raw://c63bca35418d911b356cca5dce5dbbad48e333fd1e04c60ca3c24d05718b4414",
+				"dweb:/ipfs/QmXfUrMQQDsrh3Gg3CsF5AJHrJwPZdwbZB74Mq41xMmkV9"
+			]
+		},
+		"contracts/BinaryOption.sol": {
+			"keccak256": "0x3f231c364d6bff4080b9aa62db414de0030bd27d513eaf94d8ce370ed67febfd",
+			"urls": [
+				"bzz-raw://9b1ad0350bc806a375def4a42c3a6ded45a0816b4c33a127e4a9a04c76f55e0d",
+				"dweb:/ipfs/QmQVMbMyDS27qx4k4Xw5zric5qxkHscaGXMSqphhGkqThK"
+			]
+		},
+		"contracts/BinaryOptionMarket.sol": {
+			"keccak256": "0x4568421b23be9874981a802a4411563b5d22bafee951ceba772bb9c9e6767aad",
+			"urls": [
+				"bzz-raw://84715866824c209ab27e861ff01854558211a61a6554c4ec7aa0cc96809e1e3a",
+				"dweb:/ipfs/Qmemmc4xS6Cb2qmXzZ9eo2SPyqQYpcHsm23HYY34CgVM7D"
+			]
+		},
+		"contracts/BinaryOptionMarketFactory.sol": {
+			"keccak256": "0x20062a442745f92ff6a2c2773bb59b0300a17376b67f23d47c5ca964b754fe16",
+			"urls": [
+				"bzz-raw://f6b6a351b55be700ae40ca23a43c0e222e55c9349dd9d28bc67dd04fb5443c04",
+				"dweb:/ipfs/QmZNAtsfAA78J5FgwsWsvPrxhqRczcVRbCmff9bwn7Cu4H"
+			]
+		},
+		"contracts/BinaryOptionMarketManager.sol": {
+			"keccak256": "0xd717bc29a4f07167d68329ebc7ff8b6463c6f61a6098ee683c8bd8d9c88b0cb5",
+			"urls": [
+				"bzz-raw://ac5f0a3249b4e3b4a3d21a28e20f10017dacdec669be70a4bb8b01d539536abb",
+				"dweb:/ipfs/QmVZKtqootqqR5DufE8f5Qkoi44BsvUbLNhU3RRBmNAMPm"
+			]
+		},
+		"contracts/MixinResolver.sol": {
+			"keccak256": "0xcdbf0585834f3eb9bfd355f696244dc14decbcb62f8b300c63d18e8a8717cb99",
+			"urls": [
+				"bzz-raw://4742352186b1070f3181e0b2fca833f5469f844b00bf0ad221f4a4c2b24ea828",
+				"dweb:/ipfs/QmUAhwzbnNoCzFFYCMgg3R9tjLant8dHgF6LR72q8PYonQ"
+			]
+		},
+		"contracts/Owned.sol": {
+			"keccak256": "0xce9fb9643bb96ae98377930111438ac7bfb44f8ce0641c3c8d86f56019229535",
+			"urls": [
+				"bzz-raw://38bd4ad951462320e5e01dd3882f54f30a8e7b14f6a028e53fb7dea280db447f",
+				"dweb:/ipfs/QmfGjRNRZB9qhfH24pKGPTf8U3VXfeC55FJbQEhWt3Y7RD"
+			]
+		},
+		"contracts/Pausable.sol": {
+			"keccak256": "0x12ff21e092fbe9d2f03078c85ba760f8de66356d6da81dbc7a6b57008d3172c9",
+			"urls": [
+				"bzz-raw://78068db695aee1c186853d84e097427e731616108c16e3cb7d1628f3dffbf3c6",
+				"dweb:/ipfs/QmNjVvrvr4TSQmjwyo5kAbYLpKEQ57MZ51LMudqYYfwS1t"
+			]
+		},
+		"contracts/ReadProxy.sol": {
+			"keccak256": "0xfb4b9a814b125984af93cb4798efe9753bb50f59b3db8a1db098ea828255ad8f",
+			"urls": [
+				"bzz-raw://b0d0ccae118ce22c70696468461d9ef98e2a21b9e6cf310fa1cc8c55449c35da",
+				"dweb:/ipfs/QmWXaDtfY1av6m9VL1fQtQEPdhupe9tn4cXAaYQk5NnqRw"
+			]
+		},
+		"contracts/SafeDecimalMath.sol": {
+			"keccak256": "0xec38357e7592bc7d6866c996dc411c083596c1dd1262138590dc033033c6694a",
+			"urls": [
+				"bzz-raw://4f7f85e9e766bf4f9ccbfdf2f265336bd0c8e29e151411b407c1e46c1e4a287f",
+				"dweb:/ipfs/QmWhYS4xhqnMkfw4GVLvbTR4SaT5S4TszbGqt1YLRLEBk6"
+			]
+		},
+		"contracts/interfaces/IAddressResolver.sol": {
+			"keccak256": "0xa1e4d6c2007494ffd54789f0bd3c267191579a578b5ca8099ee79aecb4def1b4",
+			"urls": [
+				"bzz-raw://d37758d3a02c001fcb9d888d6ccfb63acbadc2628b8a2eaffe9c7b4bf68a1087",
+				"dweb:/ipfs/QmcAkavFCgroCaXGVMGzPg6Em5a8V7Lovz9F3GFyk2KG6i"
+			]
+		},
+		"contracts/interfaces/IBinaryOption.sol": {
+			"keccak256": "0x0f1780fe28a10c3227bb07dea86deb27ee63c96458907d41be6e37a93bb1876d",
+			"urls": [
+				"bzz-raw://9d366bb7494ab2c2d795e916561e7f0f9f4315f4059689e098004dcf0e13ba88",
+				"dweb:/ipfs/QmRyk8mcFfbq2dDRacxiNUTzfLg7YhcjsYoZyTbuH4z7gV"
+			]
+		},
+		"contracts/interfaces/IBinaryOptionMarket.sol": {
+			"keccak256": "0x94eb2a8775489a14aa4a3a801588c0ed94c5ff122e54b46dfa20ef6009917260",
+			"urls": [
+				"bzz-raw://fc4a6b773240c0c26cc4fed820eac1e088c28d57a8c6d6a400cc2f2ef7beac43",
+				"dweb:/ipfs/Qmaz4iUGQa4ZX7KGG7uDBgGtjhPE82LbakmUTVoqxhBPfs"
+			]
+		},
+		"contracts/interfaces/IBinaryOptionMarketManager.sol": {
+			"keccak256": "0xeba27b76e7c42d2b4a867c8ae9dbb2c080234a707eacdd8426ca763249877003",
+			"urls": [
+				"bzz-raw://00005f7e6f9bdeb1695e72c126e4de62fbdaed0b6f5447f90a4cc90437433585",
+				"dweb:/ipfs/QmQVGjndbfgnQByzt4Zr2kJx8NqGCJMFmVN55yUGaCYwZD"
+			]
+		},
+		"contracts/interfaces/IERC20.sol": {
+			"keccak256": "0xd4b6957354513babee4a2be52f82c1609353f74e2c46810a0330df6376152e4a",
+			"urls": [
+				"bzz-raw://5760343d040562e293ac864309ad4ae4bf37927006d6ecf57d0240afe9623a44",
+				"dweb:/ipfs/QmYSJWGmBhsusnBL69otYjghHmtB281xU72cXYkmukeWqS"
+			]
+		},
+		"contracts/interfaces/IExchangeRates.sol": {
+			"keccak256": "0x724e85e9ad77030f5d562da81f08d4fdc94dbf0b9e9dac9a6617569fbc307070",
+			"urls": [
+				"bzz-raw://0c71f028feb06d426a681fd49acbe360d212cc23d0e411bc869b810828eaaa62",
+				"dweb:/ipfs/QmNcZ7Jjwwo34w1v62fVGfvGAKWmUoAVH9ZcEF9ZvQdJSa"
+			]
+		},
+		"contracts/interfaces/IFeePool.sol": {
+			"keccak256": "0xd6b1904ad6ab15de1eb3de653419768beee28c3eaccd939ac5fd0476a5786774",
+			"urls": [
+				"bzz-raw://2ec5ac0e9ac44a0fd52107ab8949232d7f5dc7d80a9902e17bad56814721bf61",
+				"dweb:/ipfs/QmWnhKWJywVNjGJVTY7NHfkwFHNsz98TFwsxoRCveapeqi"
+			]
+		},
+		"contracts/interfaces/IIssuer.sol": {
+			"keccak256": "0x35fc48d45fe3afeac2287390858d8a8e5c3c727aa916f12099a086da3f8b8680",
+			"urls": [
+				"bzz-raw://668036860895d870244ff159c42d6c6382507b3cbf6124dc7799b420e86be8ec",
+				"dweb:/ipfs/QmapjibvjKpKTPqDCG3A53GP39AR6AEa2ar4BHFzrfgT4Y"
+			]
+		},
+		"contracts/interfaces/ISynth.sol": {
+			"keccak256": "0xb399c9365919ce1c9cb231fd4fc69fbc6388b235528a26c2d25830beefa6bdeb",
+			"urls": [
+				"bzz-raw://ddfab507b7cf926ec592431c84c3380446bf611fbcc29d13221a65c19af63722",
+				"dweb:/ipfs/QmPVMXWhvbuDjRo89GxEbonZ3mqS32DXm54EMDQRuQLw1c"
+			]
+		},
+		"contracts/interfaces/ISystemStatus.sol": {
+			"keccak256": "0x32acd42ac6ad9136479853b6e7a2c27d0102b7645ae6ca7381ebd71f2419fa80",
+			"urls": [
+				"bzz-raw://2f223fea938091b4411e3301e3095e57bfd8245943c67c4165065c3af782e6fa",
+				"dweb:/ipfs/QmUrcGQk98CLRANX7o5WzJPZWNE8BgM1LwT1MYDgQDnrBK"
+			]
+		},
+		"openzeppelin-solidity-2.3.0/contracts/math/SafeMath.sol": {
+			"keccak256": "0x4ccf2d7b51873db1ccfd54ca2adae5eac3b184f9699911ed4490438419f1c690",
+			"urls": [
+				"bzz-raw://d62d769b2219d5de39013093412623e624fa887f871826ea3bae6052ee893610",
+				"dweb:/ipfs/QmV3yVktya1s617QmuzQR2CfuJgUi3dR2xEZY9ecmqZ2G1"
+			]
+		}
+	},
+	"version": 1
+}
