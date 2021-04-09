@@ -15,7 +15,7 @@ contract BinaryOptionMarketFactory is MinimalProxyFactory, Owned, MixinResolver 
     /* ---------- Address Resolver Configuration ---------- */
 
     bytes32 internal constant CONTRACT_BINARYOPTIONMARKETMANAGER = "BinaryOptionMarketManager";
-    bytes32 internal constant CONTRACT_BINARYOPTION_MASTERCOPY = "BinaryOptionMastercopy";
+    bytes32 internal constant CONTRACT_BINARYOPTION_MASTERCOPY = "BinaryOptionMarketMastercopy";
 
     /* ========== CONSTRUCTOR ========== */
 
@@ -58,7 +58,9 @@ contract BinaryOptionMarketFactory is MinimalProxyFactory, Owned, MixinResolver 
 
         BinaryOptionMarket bom =
             BinaryOptionMarket(_cloneAsMinimalProxy(_binaryOptionMastercopy(), "Could not create a Binary Option Market"));
-        bom.initialize(resolver, creator, creatorLimits, oracleKey, strikePrice, refundsEnabled, times, bids, fees);
+        bom.initOwner(manager);
+        bom.initResolver(address(resolver));
+        bom.initialize(creator, creatorLimits, oracleKey, strikePrice, refundsEnabled, times, bids, fees);
         return bom;
     }
 }

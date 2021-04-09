@@ -230,6 +230,10 @@ const setupContract = async ({
 			toWei('0.02'), // refund fee
 		],
 		BinaryOptionMarketData: [],
+		BinaryOptionMarketMastercopy: [
+			tryGetAddressOf('BinaryOptionMarketManager'),
+			tryGetAddressOf('AddressResolver'),
+		],
 		CollateralManager: [
 			tryGetAddressOf('CollateralManagerState'),
 			owner,
@@ -252,7 +256,9 @@ const setupContract = async ({
 				contract + (source ? ` (${source})` : '') + (forContract ? ' for ' + forContract : ''),
 				mock ? 'mock of ' + mock : '',
 				'to',
-				instance.address
+				instance.address,
+				'params',
+				defaultArgs[contract]
 			);
 		}
 	} catch (err) {
@@ -763,7 +769,6 @@ const setupAllContracts = async ({
 		{
 			contract: 'BinaryOptionMarketFactory',
 			deps: ['AddressResolver'],
-			mocks: ['BinaryOptionMarketMastercopy'],
 		},
 		{
 			contract: 'BinaryOptionMarketManager',
@@ -775,7 +780,10 @@ const setupAllContracts = async ({
 				'Synthetix',
 				'BinaryOptionMarketFactory',
 			],
-			mocks: ['BinaryOptionMarketMastercopy'],
+		},
+		{
+			contract: 'BinaryOptionMarketMastercopy',
+			deps: ['BinaryOptionMarketManager'],
 		},
 		{
 			contract: 'BinaryOptionMarketData',

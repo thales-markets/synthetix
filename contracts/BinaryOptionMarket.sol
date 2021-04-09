@@ -17,13 +17,11 @@ import "./interfaces/IFeePool.sol";
 import "./interfaces/IAddressResolver.sol";
 
 // https://docs.synthetix.io/contracts/source/contracts/binaryoptionmarket
-contract BinaryOptionMarket is Owned, IBinaryOptionMarket {
+contract BinaryOptionMarket is Owned, MixinResolver, IBinaryOptionMarket {
     /* ========== LIBRARIES ========== */
 
     using SafeMath for uint;
     using SafeDecimalMath for uint;
-
-    IAddressResolver public resolver;
 
     /* ========== TYPES ========== */
 
@@ -79,7 +77,6 @@ contract BinaryOptionMarket is Owned, IBinaryOptionMarket {
     bool public initialized = false;
 
     function initialize(
-        IAddressResolver _resolver,
         address _creator,
         uint[2] memory _creatorLimits, // [capitalRequirement, skewLimit]
         bytes32 _oracleKey,
@@ -89,9 +86,8 @@ contract BinaryOptionMarket is Owned, IBinaryOptionMarket {
         uint[2] memory _bids, // [longBid, shortBid]
         uint[3] memory _fees // [poolFee, creatorFee, refundFee]
     ) public {
-        //        require(!initialized, "vSynth already initialized");
-        //        initialized = true;
-        resolver = _resolver;
+        require(!initialized, "vSynth already initialized");
+        initialized = true;
         creator = _creator;
         creatorLimits = BinaryOptionMarketManager.CreatorLimits(_creatorLimits[0], _creatorLimits[1]);
 
@@ -139,19 +135,19 @@ contract BinaryOptionMarket is Owned, IBinaryOptionMarket {
     /* ---------- External Contracts ---------- */
 
     function _systemStatus() internal view returns (ISystemStatus) {
-        return ISystemStatus(resolver.requireAndGetAddress(CONTRACT_SYSTEMSTATUS, "SystemStatus contract not found"));
+        return ISystemStatus(requireAndGetAddress(CONTRACT_SYSTEMSTATUS));
     }
 
     function _exchangeRates() internal view returns (IExchangeRates) {
-        return IExchangeRates(resolver.requireAndGetAddress(CONTRACT_EXRATES, "ExchangeRates contract not found"));
+        return IExchangeRates(requireAndGetAddress(CONTRACT_EXRATES));
     }
 
     function _sUSD() internal view returns (IERC20) {
-        return IERC20(resolver.requireAndGetAddress(CONTRACT_SYNTHSUSD, "SynthsUSD contract not found"));
+        return IERC20(requireAndGetAddress(CONTRACT_SYNTHSUSD));
     }
 
     function _feePool() internal view returns (IFeePool) {
-        return IFeePool(resolver.requireAndGetAddress(CONTRACT_FEEPOOL, "FeePool contract not found"));
+        return IFeePool(requireAndGetAddress(CONTRACT_FEEPOOL));
     }
 
     function _manager() internal view returns (BinaryOptionMarketManager) {

@@ -7,7 +7,7 @@ contract TestableBinaryOptionMarket is BinaryOptionMarketMastercopy {
     constructor(
         address _owner,
         address _creator,
-        IAddressResolver _resolver,
+        address _resolver,
         uint[2] memory _creatorLimits,
         bytes32 _oracleKey,
         uint256 _strikePrice,
@@ -15,8 +15,8 @@ contract TestableBinaryOptionMarket is BinaryOptionMarketMastercopy {
         uint[3] memory _times,
         uint[2] memory _bids,
         uint[3] memory _fees
-    ) public {
-        initialize(_resolver, _creator, _creatorLimits, _oracleKey, _strikePrice, _refundsEnabled, _times, _bids, _fees);
+    ) public BinaryOptionMarketMastercopy(_owner, _resolver) {
+        initialize(_creator, _creatorLimits, _oracleKey, _strikePrice, _refundsEnabled, _times, _bids, _fees);
     }
 
     function updatePrices(
